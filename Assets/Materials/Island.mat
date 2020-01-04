@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Island
+  m_Shader: {fileID: 4800000, guid: 853e74f14f95920449b9793f9719d044, type: 3}
+  m_ShaderKeywords: _EMISSION _SUNDISK_HIGH_QUALITY
+  m_LightmapFlags: 1
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Floats:
+    - Vector1_51E5C7E: 2.91
+    - Vector1_5328B8B6: 2.8
+    - Vector1_53F1DF1C: 9.34
+    - Vector1_86C4003D: 1.89
+    - Vector1_AD670522: 2.1
+    - Vector1_B49963A4: 13.01
+    - Vector1_F929BBFF: 0.1
+    m_Colors:
+    - Color_2B46044F: {r: 0.23696157, g: 0.5926905, b: 0.7075472, a: 0}
+    - Color_34E92430: {r: 0.14702742, g: 0.5283019, b: 0.37218794, a: 0}
+    - Color_63CFEEB9: {r: 0.86666673, g: 0.81568635, b: 0.44705886, a: 0}
+    - Color_732A08C: {r: 0.6582859, g: 0.21560156, b: 0.8962264, a: 0}
+    - Color_8A51AD1E: {r: 0.4837057, g: 0.7830188, b: 0.32133317, a: 0}

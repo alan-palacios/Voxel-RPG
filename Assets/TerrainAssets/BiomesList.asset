@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4066dedff646ce549b7718e53373d87b, type: 3}
+  m_Name: BiomesList
+  m_EditorClassIdentifier: Assembly-CSharp::BiomesList
+  autoUpdate: 1
+  biomes:
+  - nombre: Island
+    humidityStartHeight: 0
+    wildnessStartHeight: 0
+    color: {r: 0.44705886, g: 0.77647066, b: 0.37647063, a: 0}
+    heightMapSettings: {fileID: 11400000, guid: a47862d1eb892ad47b0111c38830a3ae,
+      type: 2}
+    textureData: {fileID: 11400000, guid: a9cdf1d4394e8f74e845d46fc293b941, type: 2}
+    meshSettings: {fileID: 11400000, guid: ed9d84ed42a8ebc4f84c634cd460c65f, type: 2}
+  - nombre: Blue Mountain
+    humidityStartHeight: 0.2
+    wildnessStartHeight: 0.31
+    color: {r: 0.23529413, g: 0.69803923, b: 0.81568635, a: 0}
+    heightMapSettings: {fileID: 11400000, guid: 4bc71191690eb754f9f78b470384e092,
+      type: 2}
+    textureData: {fileID: 11400000, guid: 4a4f698be7e517c459c92c0edcc3199f, type: 2}
+    meshSettings: {fileID: 11400000, guid: 64a66cac94649ff419788a9dd2519a53, type: 2}
+  - nombre: Default
+    humidityStartHeight: 0.44
+    wildnessStartHeight: 0.29
+    color: {r: 0.4952557, g: 0.12991999, b: 0.6544118, a: 0}
+    heightMapSettings: {fileID: 11400000, guid: c61afda1c89adde44901d48636f1ca56,
+      type: 2}
+    textureData: {fileID: 11400000, guid: 52e6660550b9b0949ac272741bbf5763, type: 2}
+    meshSettings: {fileID: 11400000, guid: 154c28919cf3bd54abab9cec694dfe3f, type: 2}
+  wildSettings: {fileID: 11400000, guid: 27e7a9ab3c7b8634fa396384743bd055, type: 2}
+  humiditySettings: {fileID: 11400000, guid: 905557947a86db440a99b7f4d41723ea, type: 2}
