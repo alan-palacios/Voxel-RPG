@@ -58,7 +58,7 @@ public class TerrainGenerator : MonoBehaviour {
 		yield return new WaitForSeconds(0);
 
 		float yHeight = terrainChunkDictionary [new Vector2(0,0)].heightMap.values[ (int)chunkSize/2,  (int)chunkSize/2];
-		viewer.position = new Vector3(0, yHeight+0.2f , 1);
+		viewer.position = new Vector3(0, yHeight+0.3f , 1);
 	}
 
 	void Update() {

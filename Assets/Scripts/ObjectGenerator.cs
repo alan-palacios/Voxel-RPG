@@ -32,7 +32,7 @@ public static class ObjectGenerator
                                                   int modelsCount = objectPlacingList.objectsSettings[i].modelos.Length;
 
                                                   GameObject objectPlaced = objectPlacingList.objectsSettings[i].modelos[Random.Range(0,modelsCount)];
-                                                  MeshFilter viewedModelFilter = (MeshFilter)objectPlaced.GetComponent("MeshFilter");
+                                                  MeshFilter viewedModelFilter = objectPlaced.GetComponent<MeshFilter>();
 
                                                   float xCoord = -chunkSize/2+points[j].x;
                                                   float yCoord = -chunkSize/2+points[j].y;
@@ -83,18 +83,9 @@ public static class ObjectGenerator
                     }
           }
 
-          public static void GenerateObjectsInGame(ref GameObject[][] objetos, ref GameObject waterObj, ObjectPlacingList objectPlacingList,
-                    HeightMap heightMap, float chunkSize,  Transform parent, Vector2 coord){
+          public static void GenerateObjectsInGame(  GameObject[][] objetos, ObjectPlacingList objectPlacingList,
+                    HeightMap heightMap, float chunkSize,  GameObject parentObj, Vector2 coord){
 
-
-                    if ( !System.Object.ReferenceEquals(objetos, null) ) {
-                              for (int i=0; i<objetos.Length; i++) {
-                                        for (int j=0; j<objetos[i].Length; j++) {
-                                                  objetos[i][j].SetActive(true);
-                                        }
-                              }
-
-                    }else{
                               float[,] heightValues = heightMap.values;
                               int longLista = objectPlacingList.objectsSettings.Length;
                               if (longLista>0) {
@@ -103,7 +94,7 @@ public static class ObjectGenerator
                                         for (int i=0; i<longLista; i++) {
 
                                                   List <Vector2> originalPoints = PoissonDiscSampling.GeneratePoints(objectPlacingList.objectsSettings[i].radius,
-                                                            new Vector2( chunkSize, chunkSize), objectPlacingList.objectsSettings[i].rejectionSamples );
+                                                  new Vector2( chunkSize, chunkSize), objectPlacingList.objectsSettings[i].rejectionSamples );
 
                                                   List<Vector2> points = new List<Vector2>();
 
@@ -120,18 +111,18 @@ public static class ObjectGenerator
                                                             int modelsCount = objectPlacingList.objectsSettings[i].modelos.Length;
 
                                                             GameObject objectPlaced = objectPlacingList.objectsSettings[i].modelos[Random.Range(0,modelsCount)];
-                                                            MeshFilter viewedModelFilter = (MeshFilter)objectPlaced.GetComponent("MeshFilter");
+                                                            MeshFilter viewedModelFilter = objectPlaced.GetComponent<MeshFilter>();
 
                                                             float xCoord =  coord.x*chunkSize-chunkSize/2+points[j].x;
                                                             float yCoord = coord.y*chunkSize-chunkSize/2+points[j].y;
                                                             float heightCoord = heightValues[ (int)points[j].x, (int)points[j].y ] -
-                                                                                                    objectPlacingList.objectsSettings[i].offsetHeight;
+                                                            objectPlacingList.objectsSettings[i].offsetHeight;
 
 
                                                             Vector3 angles = new Vector3(0,0,0);
                                                             angles.y = Random.Range(0, 6)*60;
 
-                                                            objetos[i][j] = GameObject.Instantiate(objectPlaced, new Vector3(  xCoord, heightCoord  ,yCoord)  , Quaternion.Euler(angles), parent) as GameObject;
+                                                            objetos[i][j] = GameObject.Instantiate(objectPlaced, new Vector3(  xCoord, heightCoord  ,yCoord)  , Quaternion.Euler(angles), parentObj.transform) as GameObject;
 
                                                             /*Vector3 newScale = objetos[i][j].transform.localScale;
                                                             newScale *= 1.6f;
@@ -149,18 +140,18 @@ public static class ObjectGenerator
                                                   }
                                         }
                               }
-                    }
 
-                    if (!System.Object.ReferenceEquals(waterObj, null)) {
-                              waterObj.SetActive(true);
-                    }else{
+
+          }
+          public static void GenerateWaterInGame( GameObject waterObj, ObjectPlacingList objectPlacingList,
+                    HeightMap heightMap, float chunkSize,  GameObject parentObj, Vector2 coord){
+
                               if (objectPlacingList.waterObj!=null) {
                                         if (heightMap.minValue <= objectPlacingList.waterHeightPos - objectPlacingList.minDstWaterGround) {
                                                   waterObj = GameObject.Instantiate(objectPlacingList.waterObj,
-                                                  new Vector3(  coord.x*chunkSize, objectPlacingList.waterHeightPos  , coord.y*chunkSize)  , Quaternion.identity, parent) as GameObject;
+                                                  new Vector3(  coord.x*chunkSize, objectPlacingList.waterHeightPos  , coord.y*chunkSize)  , Quaternion.identity, parentObj.transform) as GameObject;
                                         }
                               }
-                    }
 
           }
 

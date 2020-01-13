@@ -24,6 +24,9 @@ MonoBehaviour:
     rejectionSamples: 10
     randomMaterial: 0
     materiales: []
+    randomScale: 0
+    minScale: 0
+    maxScale: 0
   - nombre: rock
     modelos:
     - {fileID: 100000, guid: 461f0d82d2d259d4fb6ff9f52453312c, type: 3}
@@ -34,6 +37,9 @@ MonoBehaviour:
     rejectionSamples: 11
     randomMaterial: 0
     materiales: []
+    randomScale: 0
+    minScale: 0
+    maxScale: 0
   - nombre: grass
     modelos:
     - {fileID: 100000, guid: 2ffad65ef9d416a4e9f8404651e2dc87, type: 3}
@@ -47,6 +53,9 @@ MonoBehaviour:
     materiales:
     - {fileID: 2100000, guid: dc1d7fe636d412f418e9b9bfe5588440, type: 2}
     - {fileID: 2100000, guid: 692d4e6c1fcb8a849a5f07d965b5b152, type: 2}
+    randomScale: 0
+    minScale: 0
+    maxScale: 0
   - nombre: arbusto
     modelos:
     - {fileID: 100000, guid: f214701d037dc064a80e2367f8c35803, type: 3}
@@ -57,6 +66,9 @@ MonoBehaviour:
     rejectionSamples: 11
     randomMaterial: 0
     materiales: []
+    randomScale: 0
+    minScale: 0
+    maxScale: 0
   waterObj: {fileID: 8588137158714357249, guid: 78be079c01ff57946a3cf9f1ab5556b2,
     type: 3}
   waterHeightPos: 1.63

@@ -32,8 +32,11 @@ public class TerrainChunk {
            HeightMapSettings heightMapSettings ;
           MeshSettings meshSettings;
           ObjectPlacingList objectPlacingList;
+          GameObject displayedObjectsParent;
           GameObject [][] objetos;
           GameObject waterObj;
+          bool objectsGenerated=false;
+          bool waterGenerated=false;
 
           Transform viewer;
 
@@ -83,7 +86,10 @@ public class TerrainChunk {
                     }
 
                     maxViewDst = detailLevels[detailLevels.Length-1].visibleDstThreshold;
-
+                    if (objectPlacingList.objectsSettings.Length>0 || objectPlacingList.waterObj!=null) {
+                              displayedObjectsParent = new GameObject("displayedObjectsParent");
+                              displayedObjectsParent.transform.parent = meshObject.transform;
+                    }
           }
 
           public void Load(BiomesList biomesList){
@@ -156,10 +162,23 @@ public class TerrainChunk {
                                                   if (lodMesh.hasMesh) {
                                                             previousLODIndex = lodIndex;
                                                             meshFilter.mesh = lodMesh.mesh;
-                                                            if (lodMesh.lod==0) {
-                                                                      ObjectGenerator.GenerateObjectsInGame(ref objetos, ref waterObj, objectPlacingList, heightMap, meshSettings.chunkSize,  meshObject.transform, coord);
-                                                            }else{
-                                                                      ObjectGenerator.DeleteObjectsInGame(ref objetos, ref waterObj, objectPlacingList.objectsSettings.Length);
+                                                            if (displayedObjectsParent!=null) {
+                                                                      if (lodMesh.lod==0) {
+                                                                                displayedObjectsParent.SetActive(true);
+                                                                                //el valor de los objetos y waterObj no se altera, tiene que pasarse con ref
+                                                                                if (!objectsGenerated) {
+                                                                                          ObjectGenerator.GenerateObjectsInGame( objetos, objectPlacingList, heightMap, meshSettings.chunkSize,  displayedObjectsParent, coord);
+                                                                                          objectsGenerated=true;
+                                                                                }
+                                                                                if (!waterGenerated) {
+                                                                                          ObjectGenerator.GenerateWaterInGame(  waterObj, objectPlacingList, heightMap, meshSettings.chunkSize,   displayedObjectsParent, coord);
+                                                                                          waterGenerated=true;
+                                                                                }
+
+                                                                      }else{
+                                                                                displayedObjectsParent.SetActive(false);
+                                                                                //ObjectGenerator.DeleteObjectsInGame(ref objetos, ref waterObj, objectPlacingList.objectsSettings.Length);
+                                                                      }
                                                             }
                                                   } else if (!lodMesh.hasRequestedMesh) {
                                                             lodMesh.RequestMesh (heightMap, meshSettings);
