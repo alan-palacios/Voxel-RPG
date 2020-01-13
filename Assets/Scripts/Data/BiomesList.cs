@@ -15,6 +15,7 @@ public class BiomeData : UpdatableData
           public HeightMapSettings heightMapSettings;
           public TextureData textureData;
           public MeshSettings meshSettings;
+          public ObjectPlacingList objectPlacingList;
 
 }
 

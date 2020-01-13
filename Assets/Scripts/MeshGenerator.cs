@@ -88,6 +88,91 @@ public static class MeshGenerator {
 		return meshData;
 	}
 
+	public static Vector3[] GenerateTestTerrainMesh(float[,] heightMap, MeshSettings meshSettings, int levelOfDetail) {
+
+		int width = heightMap.GetLength (0)-1;
+		int height = heightMap.GetLength (1)-1;
+
+		float topLeftX = (width ) / -2f;
+ 		float topLeftZ = (height) / -2f;
+
+		int meshSimplificationIncrement= (levelOfDetail==0)?1:levelOfDetail*2;
+
+		int meshWidth=width*2/meshSimplificationIncrement + 1;
+
+		Vector3 [] vertices = new Vector3[meshWidth* meshWidth];
+
+		int vertexIndex = 0;
+
+		for (int x=0; x<width; x+=meshSimplificationIncrement) {
+			for (int y = 0; y < width; y+=meshSimplificationIncrement) {
+
+				float xWoutIncrement=(topLeftX+x);
+				float xWithIncrement=(topLeftX+x+meshSimplificationIncrement);
+
+				float yWoutIncrement=(topLeftZ+y);
+				float yWithIncrement=(topLeftZ+y+meshSimplificationIncrement);
+				//terreno
+				if ( y==0) {
+					if(x==0){
+						vertices [vertexIndex] = new Vector3 ( xWoutIncrement, heightMap [x, y], yWoutIncrement );//down left
+						//meshData.uvs [vertexIndex] = new Vector2 (x / (float)width, y / (float)height);
+					}
+
+					vertices [vertexIndex+1] = new Vector3 ( xWithIncrement, heightMap [x, y], yWoutIncrement );//down right
+					//meshData.uvs [vertexIndex+1] = new Vector2 (  x/ (float)width, y / (float)height);
+
+				}
+
+				//over triangles
+					if (x==0) {
+						vertices [vertexIndex+meshWidth] = new Vector3 ( xWoutIncrement, heightMap [x, y], yWithIncrement);//up left
+						//meshData.uvs [vertexIndex+meshWidth] = new Vector2 ( x / (float)width,y/ (float)height);
+					}
+
+					vertices [vertexIndex+meshWidth+1] = new Vector3 (xWithIncrement, heightMap [x, y], yWithIncrement);//up right
+					//meshData.uvs [vertexIndex+meshWidth+1] = new Vector2 ( x/ (float)width, y / (float)height);
+
+					//meshData.AddTriangle (vertexIndex +meshWidth, vertexIndex+1, vertexIndex );
+					//meshData.AddTriangle (vertexIndex + 1, vertexIndex+meshWidth, vertexIndex+meshWidth+1);
+
+				//side triangles
+					vertices [vertexIndex+2] = new Vector3 (xWithIncrement, heightMap [x+meshSimplificationIncrement, y] , yWoutIncrement);// side-r down right
+					//meshData.uvs [vertexIndex+2] = new Vector2 ( (x+meshSimplificationIncrement)/ (float)width, y / (float)height);
+
+					vertices [vertexIndex+meshWidth+2] = new Vector3 ( xWithIncrement, heightMap [x+meshSimplificationIncrement, y],yWithIncrement);//side-r up right
+					//meshData.uvs [vertexIndex+meshWidth+2] = new Vector2 ( (x+meshSimplificationIncrement) / (float)width, y / (float)height);
+
+					//meshData.AddTriangle (vertexIndex+meshWidth+1, vertexIndex+2, vertexIndex+1 );
+					//meshData.AddTriangle (vertexIndex+2, vertexIndex+meshWidth+1, vertexIndex+meshWidth+ 2);
+
+				//actualizar a la siguiente fila de vectores de enfrente
+				vertexIndex+=meshWidth*2;
+
+				//front triangles
+					vertices [vertexIndex] = new Vector3 ( xWoutIncrement, heightMap [x, y+meshSimplificationIncrement], yWithIncrement );//front up left
+					//meshData.uvs [vertexIndex] = new Vector2 (x / (float)width, (y+meshSimplificationIncrement)/ (float)height);
+
+					vertices [vertexIndex+1] = new Vector3 ( xWithIncrement, heightMap [x, y+meshSimplificationIncrement], yWithIncrement);//front up right
+					//meshData.uvs [vertexIndex+1] = new Vector2 ( x / (float)width, (y+meshSimplificationIncrement)/ (float)height);
+
+					//meshData.AddTriangle (vertexIndex, vertexIndex-meshWidth + 1, vertexIndex-meshWidth );
+					//meshData.AddTriangle (vertexIndex-meshWidth + 1, vertexIndex, vertexIndex +1);
+
+
+				if( y == ( width - meshSimplificationIncrement) ){
+					vertexIndex=( (x/meshSimplificationIncrement)*2)+2;
+				}
+
+
+			}
+
+		}
+		//meshData.FlatShading();
+
+		return vertices;
+	}
+
 	public static MeshForCollision GenerateColliderMesh(float[,] heightMap, MeshSettings meshSettings, int levelOfDetail) {
 
 		int width = heightMap.GetLength (0)-1;

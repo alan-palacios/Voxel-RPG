@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d53c82b9fad7f041b802ce582f25116, type: 3}
+  m_Name: Object Placing List
+  m_EditorClassIdentifier: 
+  autoUpdate: 1
+  objectsSettings:
+  - nombre: Tree
+    modelos:
+    - {fileID: 100004, guid: 3cf6a4c86f95e00468b036959d56e632, type: 3}
+    startHeight: 6
+    endHeight: 25
+    offsetHeight: 0.3
+    radius: 25
+    rejectionSamples: 10
+    randomMaterial: 0
+    materiales: []
+  - nombre: rock
+    modelos:
+    - {fileID: 100000, guid: 461f0d82d2d259d4fb6ff9f52453312c, type: 3}
+    startHeight: 0
+    endHeight: 6
+    offsetHeight: 0
+    radius: 12.5
+    rejectionSamples: 11
+    randomMaterial: 0
+    materiales: []
+  - nombre: grass
+    modelos:
+    - {fileID: 100000, guid: 2ffad65ef9d416a4e9f8404651e2dc87, type: 3}
+    - {fileID: 100000, guid: c6c9ffacd6b38b24eaf425375e463974, type: 3}
+    startHeight: 4
+    endHeight: 15
+    offsetHeight: 0
+    radius: 4
+    rejectionSamples: 5
+    randomMaterial: 1
+    materiales:
+    - {fileID: 2100000, guid: dc1d7fe636d412f418e9b9bfe5588440, type: 2}
+    - {fileID: 2100000, guid: 692d4e6c1fcb8a849a5f07d965b5b152, type: 2}
+  - nombre: arbusto
+    modelos:
+    - {fileID: 100000, guid: f214701d037dc064a80e2367f8c35803, type: 3}
+    startHeight: 6
+    endHeight: 20
+    offsetHeight: 0.4
+    radius: 21
+    rejectionSamples: 11
+    randomMaterial: 0
+    materiales: []
+  waterObj: {fileID: 8588137158714357249, guid: 78be079c01ff57946a3cf9f1ab5556b2,
+    type: 3}
+  waterHeightPos: 1.63
+  minDstWaterGround: 0.1

@@ -19,6 +19,7 @@ public class TerrainGenerator : MonoBehaviour {
 	public HeightMapSettings humiditySettings;
 
 	public Transform viewer;
+	public bool randPos;
 
 	Vector2 viewerPosition;
 	Vector2 viewerPositionOld;
@@ -32,9 +33,15 @@ public class TerrainGenerator : MonoBehaviour {
 	Color testColor;
 	void Start() {
 
-		foreach (BiomeData biomeData in biomesList.biomes) {
+		/*foreach (BiomeData biomeData in biomesList.biomes) {
 			biomeData.textureData.ApplyToMaterial();
 		          biomeData.textureData.UpdateMeshHeights( biomeData.heightMapSettings.minHeight, biomeData.heightMapSettings.maxHeight);
+		}*/
+
+		if (randPos) {
+			wildSettings.noiseSettings.seed = Random.Range(0,300);
+			humiditySettings.noiseSettings.seed = Random.Range(0,300);
+
 		}
 
 		float maxViewDst = detailLevels [detailLevels.Length - 1].visibleDstThreshold;
@@ -43,7 +50,15 @@ public class TerrainGenerator : MonoBehaviour {
 		chunksVisibleInViewDst = Mathf.RoundToInt(maxViewDst / chunkSize);
 
 		UpdateVisibleChunks();
-		//testColor=new Color(0.0F, 0.0F, 0.0F, 0.0F);
+
+		StartCoroutine(DisplayPlayer());
+	}
+
+	IEnumerator DisplayPlayer(){
+		yield return new WaitForSeconds(0);
+
+		float yHeight = terrainChunkDictionary [new Vector2(0,0)].heightMap.values[ (int)chunkSize/2,  (int)chunkSize/2];
+		viewer.position = new Vector3(0, yHeight+0.2f , 1);
 	}
 
 	void Update() {
@@ -63,7 +78,7 @@ public class TerrainGenerator : MonoBehaviour {
 		}
 	}
 
-	void UpdateVisibleChunks() {
+	 void UpdateVisibleChunks() {
 		HashSet<Vector2> alreadyUpdatedChunkCoords = new HashSet<Vector2>();
 
 		for (int i = visibleTerrainChunks.Count-1 ; i >=0 ; i--) {
@@ -89,11 +104,11 @@ public class TerrainGenerator : MonoBehaviour {
 						terrainChunkDictionary.Add (viewedChunkCoord, newChunk);
 						newChunk.onVisibilityChanged +=onTerrainChunkVisibilityChanged;
 						newChunk.Load( biomesList);
-
 					}
 				}
 
 			}
+
 		}
 	}
 

@@ -17,10 +17,10 @@ MonoBehaviour:
     normalizeMode: 1
     scale: 20
     octaves: 6
-    persistance: 0.655
-    lacunarity: 1.6
-    seed: 105
-    offset: {x: 0, y: 0}
+    persistance: 0.647
+    lacunarity: 1.42
+    seed: 12
+    offset: {x: 19.41, y: 0}
   heightMultiplier: 0
   heightCurve:
     serializedVersion: 2

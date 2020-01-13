@@ -1,13 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class MapPreview : MonoBehaviour {
 
 	public Renderer textureRender;
 	public MeshFilter meshFilter;
 	public MeshRenderer meshRenderer;
+	GameObject [][] objetos;
+	GameObject water;
 
-	public enum DrawMode {NoiseMap, Mesh, BiomeMap};
+	public enum DrawMode {NoiseMap, Mesh, BiomeMap, DeleteChilds};
 	public DrawMode drawMode;
 
 	public BiomeData biomeData;
@@ -32,11 +35,15 @@ public class MapPreview : MonoBehaviour {
 
 		if (drawMode == DrawMode.NoiseMap) {
 			DrawTexture (TextureGenerator.TextureFromHeightMap (heightMap));
-		} else if (drawMode == DrawMode.Mesh) {
-			DrawMesh (MeshGenerator.GenerateTerrainMesh (heightMap.values, biomeData.meshSettings, editorPreviewLOD));
 		} else if (drawMode == DrawMode.BiomeMap) {
 			BiomeData[,] biomesMap = HeightMapGenerator.GenerateBiomeMap(100, 100, biomesList,Vector2.zero);
 			DrawTexture (TextureGenerator.TextureFromBiomeMap (biomesMap));
+		}else if (drawMode == DrawMode.Mesh) {
+			DrawMesh (MeshGenerator.GenerateTerrainMesh (heightMap.values, biomeData.meshSettings, editorPreviewLOD), heightMap);
+		} else if (drawMode == DrawMode.DeleteChilds) {
+			foreach (Transform child in meshRenderer.gameObject.transform) {
+			     GameObject.DestroyImmediate(child.gameObject);
+			 }
 		}
 	}
 
@@ -46,11 +53,15 @@ public class MapPreview : MonoBehaviour {
 
 		textureRender.gameObject.SetActive(true);
 		meshFilter.gameObject.SetActive(false);
+
+		ObjectGenerator.DeleteObjects(ref objetos, ref water, biomeData.objectPlacingList.objectsSettings.Length);
 	}
 
-	public void DrawMesh(MeshData meshData) {
+	public void DrawMesh(MeshData meshData, HeightMap heightMap) {
 		meshFilter.sharedMesh = meshData.CreateMesh ();
-		//meshFilter.transform.localScale = Vector3.one * FindObjectOfType<MapGenerator> ().biomeData.meshSettings.meshScale;
+
+		ObjectGenerator.DeleteObjects(ref objetos, ref water, biomeData.objectPlacingList.objectsSettings.Length);
+		ObjectGenerator.GenerateObjects(ref objetos, ref water, biomeData.objectPlacingList, heightMap, biomeData.meshSettings.chunkSize,  meshFilter.transform );
 
 		textureRender.gameObject.SetActive(false);
 		meshFilter.gameObject.SetActive(true);
@@ -70,6 +81,7 @@ public class MapPreview : MonoBehaviour {
 	}
 
 
+
 	public void OnValidate(){
 		if (biomeData.meshSettings!=null) {
 			biomeData.meshSettings.OnValuesUpdated-=OnValuesUpdated;
@@ -84,6 +96,11 @@ public class MapPreview : MonoBehaviour {
 		if (biomeData.textureData!=null) {
 			biomeData.textureData.OnValuesUpdated-=OnTextureValuesUpdated;
 			biomeData.textureData.OnValuesUpdated+=OnTextureValuesUpdated;
+		}
+
+		if (biomeData.objectPlacingList!=null) {
+			biomeData.objectPlacingList.OnValuesUpdated-=OnValuesUpdated;
+			biomeData.objectPlacingList.OnValuesUpdated+=OnValuesUpdated;
 		}
 
 		if (biomesList!=null) {

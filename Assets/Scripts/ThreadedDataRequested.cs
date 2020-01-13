@@ -8,6 +8,7 @@ public class ThreadedDataRequested : MonoBehaviour
 {
   static ThreadedDataRequested instance;
   Queue<ThreadInfo> dataQueue = new Queue<ThreadInfo>();
+  int runningThreads =-200;
 
   void Awake(){
     instance=FindObjectOfType<ThreadedDataRequested>();
@@ -25,17 +26,25 @@ public class ThreadedDataRequested : MonoBehaviour
               object data = generateData();
               lock (dataQueue) {
           			dataQueue.Enqueue (new ThreadInfo (callback, data));
+                                        instance.runningThreads++;
           		}
 	}
 
 	void Update() {
-              while (dataQueue.Count > 0) {
-                  lock(dataQueue){
-                            ThreadInfo threadInfo = dataQueue.Dequeue ();
-                            threadInfo.callback (threadInfo.parameter);
-                  }
-              }
+                    if ( instance.runningThreads<8) {
+                              lock(dataQueue){
+                                        while (dataQueue.Count > 0 ) {
+                                                  ThreadInfo threadInfo = dataQueue.Dequeue ();
+                                                  threadInfo.callback (threadInfo.parameter);
+
+                                        }
+                              }
+                    }
 	}
+
+          public static void RemoveThread(){
+                instance.runningThreads--;
+        }
 
   struct ThreadInfo {
 		public readonly Action<object> callback;
