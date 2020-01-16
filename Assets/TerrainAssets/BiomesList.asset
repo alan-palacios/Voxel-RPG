@@ -21,7 +21,6 @@ MonoBehaviour:
     heightMapSettings: {fileID: 11400000, guid: a47862d1eb892ad47b0111c38830a3ae,
       type: 2}
     textureData: {fileID: 11400000, guid: a9cdf1d4394e8f74e845d46fc293b941, type: 2}
-    meshSettings: {fileID: 11400000, guid: ed9d84ed42a8ebc4f84c634cd460c65f, type: 2}
     objectPlacingList: {fileID: 11400000, guid: 0352b36795800b14a85e2d0db1c98cdb,
       type: 2}
   - nombre: Blue Mountain
@@ -31,7 +30,6 @@ MonoBehaviour:
     heightMapSettings: {fileID: 11400000, guid: 4bc71191690eb754f9f78b470384e092,
       type: 2}
     textureData: {fileID: 11400000, guid: 4a4f698be7e517c459c92c0edcc3199f, type: 2}
-    meshSettings: {fileID: 11400000, guid: 64a66cac94649ff419788a9dd2519a53, type: 2}
     objectPlacingList: {fileID: 11400000, guid: 8086b98ab3705bb45a713ad2b72acf36,
       type: 2}
   - nombre: Default
@@ -41,8 +39,8 @@ MonoBehaviour:
     heightMapSettings: {fileID: 11400000, guid: c61afda1c89adde44901d48636f1ca56,
       type: 2}
     textureData: {fileID: 11400000, guid: 52e6660550b9b0949ac272741bbf5763, type: 2}
-    meshSettings: {fileID: 11400000, guid: 154c28919cf3bd54abab9cec694dfe3f, type: 2}
     objectPlacingList: {fileID: 11400000, guid: 7e0ff679ed1a378468f62cbbd45db951,
       type: 2}
   wildSettings: {fileID: 11400000, guid: 27e7a9ab3c7b8634fa396384743bd055, type: 2}
   humiditySettings: {fileID: 11400000, guid: 905557947a86db440a99b7f4d41723ea, type: 2}
+  meshSettings: {fileID: 11400000, guid: f67be922837f9f647a64372f307f1b89, type: 2}

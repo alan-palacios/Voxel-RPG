@@ -23,10 +23,12 @@ public class MapPreview : MonoBehaviour {
 	public bool autoUpdate;
 
 	//public float meshScale =10f;
-	public int noiseSize = 49;
+	
+	int noiseSize ;
 	//public float chunkSize=48;
 
 	public void DrawMapInEditor() {
+		noiseSize= biomesList.meshSettings.noiseSize;
 		biomeData.textureData.ApplyToMaterial();
 		biomeData.textureData.UpdateMeshHeights( biomeData.heightMapSettings.minHeight, biomeData.heightMapSettings.maxHeight);
 
@@ -39,7 +41,7 @@ public class MapPreview : MonoBehaviour {
 			BiomeData[,] biomesMap = HeightMapGenerator.GenerateBiomeMap(100, 100, biomesList,Vector2.zero);
 			DrawTexture (TextureGenerator.TextureFromBiomeMap (biomesMap));
 		}else if (drawMode == DrawMode.Mesh) {
-			DrawMesh (MeshGenerator.GenerateTerrainMesh (heightMap.values, biomeData.meshSettings, editorPreviewLOD), heightMap);
+			DrawMesh (MeshGenerator.GenerateTerrainMesh (heightMap.values, biomesList.meshSettings, editorPreviewLOD), heightMap);
 		} else if (drawMode == DrawMode.DeleteChilds) {
 			foreach (Transform child in meshRenderer.gameObject.transform) {
 			     GameObject.DestroyImmediate(child.gameObject);
@@ -61,7 +63,7 @@ public class MapPreview : MonoBehaviour {
 		meshFilter.sharedMesh = meshData.CreateMesh ();
 
 		ObjectGenerator.DeleteObjects(ref objetos, ref water, biomeData.objectPlacingList.objectsSettings.Length);
-		ObjectGenerator.GenerateObjects(ref objetos, ref water, biomeData.objectPlacingList, heightMap, biomeData.meshSettings.chunkSize,  meshFilter.transform );
+		ObjectGenerator.GenerateObjects(ref objetos, ref water, biomeData.objectPlacingList, heightMap, biomesList.meshSettings.chunkSize,  meshFilter.transform );
 
 		textureRender.gameObject.SetActive(false);
 		meshFilter.gameObject.SetActive(true);
@@ -83,13 +85,13 @@ public class MapPreview : MonoBehaviour {
 
 
 	public void OnValidate(){
-		if (biomeData.meshSettings!=null) {
-			biomeData.meshSettings.OnValuesUpdated-=OnValuesUpdated;
-			biomeData.meshSettings.OnValuesUpdated+=OnValuesUpdated;
+		if (biomesList.meshSettings!=null) {
+			biomesList.meshSettings.OnValuesUpdated-=OnValuesUpdated;
+			biomesList.meshSettings.OnValuesUpdated+=OnValuesUpdated;
 		}
 
 		if (biomeData.heightMapSettings!=null) {
-			biomeData.meshSettings.OnValuesUpdated-=OnValuesUpdated;
+			//biomesList.meshSettings.OnValuesUpdated-=OnValuesUpdated;
 			biomeData.heightMapSettings.OnValuesUpdated+=OnValuesUpdated;
 		}
 

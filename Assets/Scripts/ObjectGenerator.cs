@@ -137,6 +137,10 @@ public static class ObjectGenerator
 
                                                                       objetos[i][j].transform.localScale = Vector3.one*Mathf.Floor (newScale / 0.1f)*0.1f;
                                                             }
+                                                            if (objectPlacingList.objectsSettings[i].generateCollider) {
+                                                                      MeshCollider meshCollider = objetos[i][j].AddComponent<MeshCollider>();
+                                                                      meshCollider.enabled = false;
+                                                            }
                                                   }
                                         }
                               }
@@ -154,6 +158,15 @@ public static class ObjectGenerator
                               }
 
           }
+          public static void GenerateFogInGame( GameObject fogObj, ObjectPlacingList objectPlacingList,
+                    HeightMap heightMap, float chunkSize,  GameObject parentObj, Vector2 coord){
+
+                              if (objectPlacingList.fogObj!=null) {
+                                        fogObj = GameObject.Instantiate(objectPlacingList.fogObj,
+                                        new Vector3(  coord.x*chunkSize, objectPlacingList.fogHeightPos  , coord.y*chunkSize)  , Quaternion.identity, parentObj.transform) as GameObject;
+                              }
+
+          }
 
           public static void DeleteObjectsInGame( ref GameObject [][] objetos, ref GameObject waterObj, int longObjetos ){
                     if ( !System.Object.ReferenceEquals(objetos, null)) {
@@ -168,6 +181,7 @@ public static class ObjectGenerator
                     if (!System.Object.ReferenceEquals(waterObj, null)) {
                               waterObj.SetActive(false);
                     }
+                    
           }
 
 }

@@ -15,8 +15,8 @@ public class TerrainGenerator : MonoBehaviour {
 	public BiomesList biomesList;
 	public int[,] biomeMap;
 
-	public HeightMapSettings wildSettings;
-	public HeightMapSettings humiditySettings;
+	//public HeightMapSettings wildSettings;
+	//public HeightMapSettings humiditySettings;
 
 	public Transform viewer;
 	public bool randPos;
@@ -25,22 +25,22 @@ public class TerrainGenerator : MonoBehaviour {
 	Vector2 viewerPositionOld;
 
 	int chunksVisibleInViewDst;
-	public float chunkSize=48;
+	public float chunkSize;
 
 	Dictionary<Vector2, TerrainChunk> terrainChunkDictionary = new Dictionary<Vector2, TerrainChunk>();
 	List<TerrainChunk> visibleTerrainChunks = new List<TerrainChunk>();
 
 	Color testColor;
 	void Start() {
-
+		chunkSize=biomesList.meshSettings.chunkSize;
 		/*foreach (BiomeData biomeData in biomesList.biomes) {
 			biomeData.textureData.ApplyToMaterial();
 		          biomeData.textureData.UpdateMeshHeights( biomeData.heightMapSettings.minHeight, biomeData.heightMapSettings.maxHeight);
 		}*/
 
 		if (randPos) {
-			wildSettings.noiseSettings.seed = Random.Range(0,300);
-			humiditySettings.noiseSettings.seed = Random.Range(0,300);
+			biomesList.wildSettings.noiseSettings.seed = Random.Range(0,300);
+			biomesList.humiditySettings.noiseSettings.seed = Random.Range(0,300);
 
 		}
 
@@ -58,7 +58,7 @@ public class TerrainGenerator : MonoBehaviour {
 		yield return new WaitForSeconds(0);
 
 		float yHeight = terrainChunkDictionary [new Vector2(0,0)].heightMap.values[ (int)chunkSize/2,  (int)chunkSize/2];
-		viewer.position = new Vector3(0, yHeight+0.3f , 1);
+		viewer.position = new Vector3(0, yHeight+0.5f , 1);
 	}
 
 	void Update() {

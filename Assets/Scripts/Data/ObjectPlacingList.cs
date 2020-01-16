@@ -9,6 +9,8 @@ public class ObjectPlacingList : UpdatableData
     public GameObject waterObj;
     public float waterHeightPos;
     public float minDstWaterGround;
+    public GameObject fogObj;
+    public float fogHeightPos;    
 
 }
 
@@ -17,6 +19,7 @@ public class ObjectPlacingList : UpdatableData
 public struct ObjectData
 {
           public string nombre;
+          public bool generateCollider;
           public GameObject [] modelos;
           public float startHeight;
           public float endHeight;

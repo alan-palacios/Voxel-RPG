@@ -14,7 +14,6 @@ public class BiomeData : UpdatableData
           public Color color;
           public HeightMapSettings heightMapSettings;
           public TextureData textureData;
-          public MeshSettings meshSettings;
           public ObjectPlacingList objectPlacingList;
 
 }
@@ -26,5 +25,5 @@ public class BiomesList : UpdatableData
     public BiomeData [] biomes;
     public HeightMapSettings wildSettings;
     public HeightMapSettings humiditySettings;
-
+    public MeshSettings meshSettings;
 }

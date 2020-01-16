@@ -15,6 +15,7 @@ MonoBehaviour:
   autoUpdate: 1
   objectsSettings:
   - nombre: Giant Mushroom
+    generateCollider: 1
     modelos:
     - {fileID: 100000, guid: 5b41df5b988956845b731c4453bb959f, type: 3}
     - {fileID: 100000, guid: a8b66f7e2f7e86a478e6a4bdde453be8, type: 3}
@@ -31,6 +32,7 @@ MonoBehaviour:
     minScale: 0
     maxScale: 0
   - nombre: Flower
+    generateCollider: 0
     modelos:
     - {fileID: 100000, guid: 481acc690f4dd1b4aaad325ba2ac908b, type: 3}
     - {fileID: 100000, guid: 114398afb4e02b44485e87b20668a673, type: 3}

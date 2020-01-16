@@ -35,9 +35,11 @@ public class TerrainChunk {
           GameObject displayedObjectsParent;
           GameObject [][] objetos;
           GameObject waterObj;
+          GameObject fogObj;
           bool objectsGenerated=false;
           bool waterGenerated=false;
-
+          bool fogGenerated=false;
+          float chunkSize;
           Transform viewer;
 
           BiomeData [,] nearbyBiomes;
@@ -45,6 +47,7 @@ public class TerrainChunk {
 
           public TerrainChunk(Vector2 coord, BiomesList biomesList, LODInfo[]  detailLevels, int colliderLODIndex, Transform parent, Transform viewer) {
 
+                    chunkSize=biomesList.meshSettings.chunkSize;
 
                     nearbyBiomes = HeightMapGenerator.GenerateBiomeMap(2, 2, biomesList, coord);
                     BiomeData biomeData = nearbyBiomes[0,0];
@@ -53,13 +56,13 @@ public class TerrainChunk {
                     this.detailLevels=detailLevels;
                     this.colliderLODIndex= colliderLODIndex;
                     this.heightMapSettings= biomeData.heightMapSettings;
-                    this.meshSettings=biomeData.meshSettings;
+                    this.meshSettings=biomesList.meshSettings;
                     this.objectPlacingList = biomeData.objectPlacingList;
 
                     this.viewer=viewer;
-                    sampleCentre = coord * meshSettings.chunkSize;//mapGenerator.biomeData.meshSettings.meshScale;
-                    Vector2 position = coord*meshSettings.chunkSize;//new Vector3(sampleCentre.x,0,sampleCentre.y);
-                    bounds = new Bounds(position,Vector2.one * meshSettings.chunkSize);
+                    sampleCentre = coord * chunkSize;//mapGenerator.biomeData.meshSettings.meshScale;
+                    Vector2 position = coord*chunkSize;//new Vector3(sampleCentre.x,0,sampleCentre.y);
+                    bounds = new Bounds(position,Vector2.one * chunkSize);
 
 
 
@@ -86,7 +89,7 @@ public class TerrainChunk {
                     }
 
                     maxViewDst = detailLevels[detailLevels.Length-1].visibleDstThreshold;
-                    if (objectPlacingList.objectsSettings.Length>0 || objectPlacingList.waterObj!=null) {
+                    if (objectPlacingList.objectsSettings.Length>0 || objectPlacingList.waterObj!=null || objectPlacingList.fogObj!=null) {
                               displayedObjectsParent = new GameObject("displayedObjectsParent");
                               displayedObjectsParent.transform.parent = meshObject.transform;
                     }
@@ -167,12 +170,16 @@ public class TerrainChunk {
                                                                                 displayedObjectsParent.SetActive(true);
                                                                                 //el valor de los objetos y waterObj no se altera, tiene que pasarse con ref
                                                                                 if (!objectsGenerated) {
-                                                                                          ObjectGenerator.GenerateObjectsInGame( objetos, objectPlacingList, heightMap, meshSettings.chunkSize,  displayedObjectsParent, coord);
+                                                                                          ObjectGenerator.GenerateObjectsInGame( objetos, objectPlacingList, heightMap, chunkSize,  displayedObjectsParent, coord);
                                                                                           objectsGenerated=true;
                                                                                 }
                                                                                 if (!waterGenerated) {
-                                                                                          ObjectGenerator.GenerateWaterInGame(  waterObj, objectPlacingList, heightMap, meshSettings.chunkSize,   displayedObjectsParent, coord);
+                                                                                          ObjectGenerator.GenerateWaterInGame(  waterObj, objectPlacingList, heightMap, chunkSize,   displayedObjectsParent, coord);
                                                                                           waterGenerated=true;
+                                                                                }
+                                                                                if (!fogGenerated) {
+                                                                                          ObjectGenerator.GenerateFogInGame(  fogObj, objectPlacingList, heightMap, chunkSize,   displayedObjectsParent, coord);
+                                                                                          fogGenerated=true;
                                                                                 }
 
                                                                       }else{
@@ -198,8 +205,9 @@ public class TerrainChunk {
           }
 
           public void UpdateCollisionMesh(){
+                    float sqrDstFromViewerToEdge = bounds.SqrDistance(viewerPosition);
+
                     if (!hasSetCollider) {
-                              float sqrDstFromViewerToEdge = bounds.SqrDistance(viewerPosition);
 
                               if (sqrDstFromViewerToEdge < detailLevels[colliderLODIndex].sqrVisibleDstThreshold) {
                                         if (!lodMeshes[colliderLODIndex].hasRequestedMeshCollider) {
@@ -213,6 +221,39 @@ public class TerrainChunk {
 
                                                   meshCollider.sharedMesh=lodMeshes[colliderLODIndex].meshCollider;
                                                   hasSetCollider=true;
+                                        }
+                                        if (displayedObjectsParent!=null) {
+                                                  for(int i = 0; i < displayedObjectsParent.transform.childCount; i++){
+                                                            MeshCollider meshColl = displayedObjectsParent.transform.GetChild(i).gameObject.GetComponent<MeshCollider>();
+                                                            if (meshColl!=null) {
+                                                                      meshColl.enabled=true;
+                                                            }
+                                                  }
+                                        }
+                              }
+                    }else{
+                              if (meshCollider.enabled && sqrDstFromViewerToEdge > colliderGenerationDistanceTreshold*colliderGenerationDistanceTreshold) {
+                                        meshCollider.enabled = false;
+
+                                        if (displayedObjectsParent!=null) {
+                                                  for(int i = 0; i < displayedObjectsParent.transform.childCount; i++){
+                                                            MeshCollider meshColl = displayedObjectsParent.transform.GetChild(i).gameObject.GetComponent<MeshCollider>();
+                                                            if (meshColl!=null) {
+                                                                      meshColl.enabled=false;
+                                                            }
+                                                  }
+                                        }
+
+                              }else if (!meshCollider.enabled && sqrDstFromViewerToEdge <= colliderGenerationDistanceTreshold*colliderGenerationDistanceTreshold){
+                                        meshCollider.enabled = true;
+
+                                        if (displayedObjectsParent!=null) {
+                                                  for(int i = 0; i < displayedObjectsParent.transform.childCount; i++){
+                                                            MeshCollider meshColl = displayedObjectsParent.transform.GetChild(i).gameObject.GetComponent<MeshCollider>();
+                                                            if (meshColl!=null) {
+                                                                      meshColl.enabled=true;
+                                                            }
+                                                  }
                                         }
                               }
                     }

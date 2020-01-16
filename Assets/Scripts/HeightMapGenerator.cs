@@ -11,10 +11,10 @@ public static class HeightMapGenerator{
 
                     int typeOfCorner = 0;
 
-                    int width = biomeData.meshSettings.noiseSize;
+                    int width = biomesList.meshSettings.noiseSize;
                     int height = width;
                     HeightMapSettings settings = biomeData.heightMapSettings;
-                    float chunkSize = biomeData.meshSettings.chunkSize;
+                    float chunkSize = biomesList.meshSettings.chunkSize;
 
                     BiomeData [,] nearbyBiomes = HeightMapGenerator.GenerateBiomeMap(2, 2, biomesList, sampleCentre/chunkSize);
                     float [,] values = Noise.GenerateNoiseMap(width, height, settings.noiseSettings, sampleCentre);

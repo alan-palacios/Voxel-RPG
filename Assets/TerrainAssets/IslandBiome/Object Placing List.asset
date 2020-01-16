@@ -15,8 +15,9 @@ MonoBehaviour:
   autoUpdate: 1
   objectsSettings:
   - nombre: Tree
+    generateCollider: 1
     modelos:
-    - {fileID: 100004, guid: 3cf6a4c86f95e00468b036959d56e632, type: 3}
+    - {fileID: 100000, guid: 1e903c1ac52c356418121b5f445e9b91, type: 3}
     startHeight: 6
     endHeight: 25
     offsetHeight: 0.3
@@ -24,10 +25,11 @@ MonoBehaviour:
     rejectionSamples: 10
     randomMaterial: 0
     materiales: []
-    randomScale: 0
-    minScale: 0
-    maxScale: 0
+    randomScale: 1
+    minScale: 1
+    maxScale: 1.5
   - nombre: rock
+    generateCollider: 1
     modelos:
     - {fileID: 100000, guid: 461f0d82d2d259d4fb6ff9f52453312c, type: 3}
     startHeight: 0
@@ -41,13 +43,14 @@ MonoBehaviour:
     minScale: 0
     maxScale: 0
   - nombre: grass
+    generateCollider: 0
     modelos:
     - {fileID: 100000, guid: 2ffad65ef9d416a4e9f8404651e2dc87, type: 3}
     - {fileID: 100000, guid: c6c9ffacd6b38b24eaf425375e463974, type: 3}
     startHeight: 4
     endHeight: 15
     offsetHeight: 0
-    radius: 4
+    radius: 2
     rejectionSamples: 5
     randomMaterial: 1
     materiales:
@@ -57,6 +60,7 @@ MonoBehaviour:
     minScale: 0
     maxScale: 0
   - nombre: arbusto
+    generateCollider: 0
     modelos:
     - {fileID: 100000, guid: f214701d037dc064a80e2367f8c35803, type: 3}
     startHeight: 6
@@ -73,3 +77,5 @@ MonoBehaviour:
     type: 3}
   waterHeightPos: 1.63
   minDstWaterGround: 0.1
+  fogObj: {fileID: 0}
+  fogHeightPos: 30
